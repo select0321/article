@@ -25,7 +25,7 @@ class ResourceService extends BaseService
             'state' => 'publish',
         ];
 
-        return $this->repository("resource")->paginate($where, 15, ['extension', 'feed', 'article']);
+        return $this->repository("resource")->paginate($where, 15, ['extension', 'feed', 'article'],['published_at', 'desc']);
     }
 
 
