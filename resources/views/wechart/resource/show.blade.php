@@ -5,7 +5,7 @@
         <div class="container">
             <div class="page-header">
                 <h1 class="page-title">
-                    Documentation
+                    {{$item->feed->name}}
                 </h1>
             </div>
             <div class="row">
