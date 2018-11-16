@@ -25,7 +25,13 @@ class ResourceService extends BaseService
             'state' => 'publish',
         ];
 
-        return $this->repository("resource")->paginate($where, 15, ['extension', 'feed', 'article'],['published_at', 'desc']);
+        return $this->repository("resource")->paginate($where, 15, [
+            'extension',
+            'feed',
+            'article' => function ($query) {
+                return $query->select('resource_id', 'digest');
+            }
+        ], ['published_at', 'desc']);
     }
 
 
@@ -55,14 +61,14 @@ class ResourceService extends BaseService
 
         if ($audio) {
             $audio['resource_id'] = $resource->id;
-            $audio = $this->repository("resource_audio")->updateOrCreate([
+            $audio                = $this->repository("resource_audio")->updateOrCreate([
                 'resource_id' => $resource->id
             ], $audio);
         }
 
         if ($extension) {
             $extension['resource_id'] = $resource->id;
-            $extension = $this->repository("resource_extension")->updateOrCreate([
+            $extension                = $this->repository("resource_extension")->updateOrCreate([
                 'resource_id' => $resource->id
             ], $extension);
         }
